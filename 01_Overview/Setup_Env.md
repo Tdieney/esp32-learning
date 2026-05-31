@@ -56,7 +56,18 @@ cd 01_Overview\BlinkLED
 idf.py set-target esp32s3
 ```
 
-This generates the configuration files and the compilation database for `clangd`. To build the project:
+This generates the configuration files and the compilation database for `clangd`. Add dependency led_strip (a library for controlling the onboard RGB LED):
+
+```
+idf.py add-dependency "espressif/led_strip^2.4.1"
+```
+
+Above command will create a file:
+```
+main/idf_component.yml
+```
+
+Build the project:
 
 ```cmd
 idf.py build
