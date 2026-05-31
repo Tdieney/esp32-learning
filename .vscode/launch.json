@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ESP32-S3 JTAG Debug",
+            "type": "cortex-debug",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/${workspaceFolderBasename}.elf",
+            "servertype": "openocd",
+            "toolchainPrefix": "xtensa-esp32s3-elf",
+            "serverArgs": [
+                "-f", "board/esp32s3-builtin.cfg"
+            ],
+            "overrideAttachCommands": [
+                "set remote hardware-watchpoint-limit 2",
+                "monitor reset halt",
+                "flushregs"
+            ],
+            "overrideRestartCommands": [
+                "monitor reset halt"
+            ]
+        }
+    ]
+}
