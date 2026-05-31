@@ -50,9 +50,7 @@ STORE M1, R3     ; Store result back to memory
 
 ---
 
-## 2. Comparison from an Embedded Firmware Engineer's Perspective
-
-As an embedded engineer working on systems ranging from bare-metal applications to Adaptive AUTOSAR platforms, instruction set architecture directly impacts how you optimize a system.
+## 2. Comparison
 
 | Feature                          | CISC (e.g., x86, 8051)                                                                                        | RISC (e.g., ARM Cortex-M, RISC-V)                                                                                                     |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
@@ -94,3 +92,7 @@ Having witnessed the evolution of processor architectures over the past two deca
 * Conversely, modern **RISC architectures** (such as ARMv8, ARMv9, and advanced RISC-V implementations) now include increasingly sophisticated instruction extensions, including vector processing, AES cryptography instructions, and AI/matrix computation accelerators. As a result, they are no longer as "minimalistic" as the original RISC philosophy envisioned.
 
 In practice, today's high-performance CPUs often combine ideas from both worlds: **the software compatibility and rich instruction sets of CISC with the execution efficiency and pipelining advantages of RISC.**
+
+## My Point of View
+
+In the context of current embedded system development, there is no "winner" between RISC and CISC. Each architecture has its own strengths and trade-offs, and the choice depends on the specific application requirements, ecosystem support, and developer preferences.
