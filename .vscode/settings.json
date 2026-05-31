@@ -24,11 +24,11 @@
     "files.exclude": {
         "**/.git": true,
         "**/.DS_Store": true,
-        "**/build": true,
+        "**/build": false,
         "**/sdkconfig.old": true
     },
     "search.exclude": {
-        "**/build": true,
+        "**/build": false, // We want to search build for symbols, but not show it in the explorer
         "**/sdkconfig.old": true,
         "**/managed_components": true
     },
