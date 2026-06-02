@@ -4,6 +4,7 @@
 
 1. **Hardware:** An ESP32-S3 board. Connect the cable to the **Native USB** port (the port wired directly to the S3's D+/D- pins, not the UART-to-USB converter port).
 2. **Software:** Install the latest **Python 3** and **Git** for Windows. Make sure to check *Add Python to PATH* during the Python installer.
+3. **LLVM/Clang:** Download the latest [LLVM for Windows](https://github.com/llvm/llvm-project/releases) (e.g., `LLVM-x.y.z-win64.exe`). During installation, select **Add LLVM to system PATH for all users**. This provides the necessary tools for code formatting and static analysis.
 
 ## 2. Install the Backend (ESP-IDF Toolchain)
 
@@ -21,11 +22,11 @@ install.bat
 
 ## 3. Install the Frontend (VSCode)
 
-Keep VSCode lightweight:
+Keep VSCode lightweight and powerful:
 
 1. Open Extensions (`Ctrl+Shift+X`).
-2. **Required:** Find the Microsoft **C/C++** extension and select **Disable**.
-3. Install **clangd** (by LLVM) for fast code analysis.
+2. **Required:** Find the Microsoft **C/C++** extension and select **Disable** (or **Disable for Workspace**). We avoid it because it is resource-heavy and often conflicts with ESP-IDF's complex headers.
+3. Install **clangd** (by LLVM). It provides fast, accurate code completion, navigation, and static analysis.
 4. Install **Cortex-Debug** (by marus25) for JTAG debugging.
 
 ## 4. Configure a New Project Workspace
@@ -103,3 +104,24 @@ Once flashing reaches 100% and the terminal shows `waiting for download`, press 
 ## 6. JTAG Debugging
 
 No flashing command needed for a debug session. Set a breakpoint in the code and press **F5**. Cortex-Debug connects directly to the hardware via OpenOCD using the built-in USB JTAG interface.
+
+## 7. Code Quality and Formatting
+
+The project uses `clang-format` for consistent code style and `clang-tidy` for static analysis.
+
+### 7.1. Clang-Format
+- **Config File:** [.clang-format](../.clang-format) in the root directory.
+- **VSCode Integration:** The project is configured to **Format on Save**. You can also manually format using `Shift+Alt+F`.
+- **Key Rules:**
+  - Based on **LLVM** style.
+  - **4-space** indentation (no tabs).
+  - **Allman** brace style (braces on new lines).
+  - Column limit: 120 characters.
+
+### 7.2. Clang-Tidy
+- **Config File:** [.clang-tidy](../.clang-tidy) in the root directory.
+- **VSCode Integration:** `clangd` automatically runs Clang-Tidy checks in the background. Warnings and errors will appear directly in your code and the **Problems** tab (`Ctrl+Shift+M`).
+- **Included Checks:**
+  - `bugprone-*`: To catch potential logic errors.
+  - `performance-*`: To identify inefficient code patterns.
+  - `readability-*`: To ensure code follows clean-coding standards.

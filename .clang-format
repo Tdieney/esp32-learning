@@ -1,0 +1,47 @@
+---
+Language: Cpp
+
+BasedOnStyle: LLVM
+
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+ColumnLimit: 120
+
+BreakBeforeBraces: Allman
+
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+
+IndentCaseLabels: true
+
+PointerAlignment: Left
+
+SpaceBeforeParens: ControlStatements
+
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignConsecutiveMacros: true
+
+SortIncludes: false
+
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 1
+
+BinPackArguments: false
+BinPackParameters: false
+
+Cpp11BracedListStyle: true
+
+IndentPPDirectives: None
+
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+
+SpaceAfterCStyleCast: true
+
+AlignTrailingComments: true
+
+ReflowComments: true
