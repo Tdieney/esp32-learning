@@ -13,16 +13,15 @@ Each section folder typically contains:
 ## Current Progress
 
 - [x] 01_Overview
-- [ ] 02_BootingProcess
-- [ ] 03_McuRegisters
-- [ ] 04_RegisterDriverApi
-- [ ] 05_PollingInterrupt
-- [ ] 06_UART
-- [ ] 07_I2C
-- [ ] 08_SPI
-- [ ] 09_TimerWatchdog
-- [ ] 10_AdcDac
-- [ ] 11_PWM
-- [ ] 12_AiPromptCode
-- [ ] 13_AiContextProvision
+- [x] 02_BootingProcess
+- [x] 03_McuRegisters
+- [x] 04_PollingInterrupt
+- [x] 05_UART
+- [ ] 06_I2C
+- [ ] 07_SPI
+- [ ] 08_TimerWatchdog
+- [ ] 09_AdcDac
+- [ ] 10_PWM
+- [ ] 11_AiPromptCode
+- [ ] 12_AiContextProvision
 
