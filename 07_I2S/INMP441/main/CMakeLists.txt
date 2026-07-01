@@ -1,0 +1,18 @@
+idf_component_register(
+    SRCS
+        "main.c"
+        "wifi_manager.c"
+        "http_server.c"
+        "recorder.c"
+        "led_indicator.c"
+    INCLUDE_DIRS
+        "."
+    REQUIRES
+        driver
+        esp_wifi
+        esp_http_server
+        esp_event
+        nvs_flash
+        joltwallet__littlefs
+        led_strip
+)
