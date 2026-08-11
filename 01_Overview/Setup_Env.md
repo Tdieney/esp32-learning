@@ -46,6 +46,7 @@ Open the integrated terminal in VSCode (`` Ctrl+` ``).
 
 ```cmd
 %USERPROFILE%\esp\esp-idf\export.bat
+..\..\Tools\esp-idf\export.bat
 ```
 
 ### 5.2. Building a Project

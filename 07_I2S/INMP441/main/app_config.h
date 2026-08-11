@@ -110,7 +110,7 @@ extern "C"
 #define RECORD_PREROLL_SEC 0.5f
 
 /** Recording duration in seconds (not counting the pre-roll). */
-#define RECORD_DURATION_SEC 2
+#define RECORD_DURATION_SEC 1
 
 /**
  * Total 16-bit PCM samples to capture (after pre-roll).
@@ -177,14 +177,9 @@ extern "C"
  *   Safety margin     :                                                       = 2000 ms
  *                                                              Total ≈ 8200 ms
  */
-#define RECORD_TOTAL_TIMEOUT_MS                                                  \
-    ((LED_PREROLL_BLINK_COUNT * 2 * LED_PREROLL_BLINK_MS)                        \
-     + (uint32_t)(RECORD_PREROLL_SEC * 1000)                                     \
-     + (RECORD_DURATION_SEC * 1000)                                              \
-     + LED_DONE_MS                                                               \
-     + 4000)
-
-
+#define RECORD_TOTAL_TIMEOUT_MS                                                                                        \
+    ((LED_PREROLL_BLINK_COUNT * 2 * LED_PREROLL_BLINK_MS) + (uint32_t) (RECORD_PREROLL_SEC * 1000) +                   \
+     (RECORD_DURATION_SEC * 1000) + LED_DONE_MS + 4000)
 
 /* --------------------------------------------------------------------------
  * FreeRTOS synchronisation bits

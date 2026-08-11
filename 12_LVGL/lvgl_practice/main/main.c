@@ -6,6 +6,7 @@
 #include "driver/gpio.h"
 #include "esp_log.h"
 #include "esp_err.h"
+#include "esp_heap_caps.h"
 
 // esp_lcd framework includes
 #include "esp_lcd_panel_io.h"
@@ -16,10 +17,7 @@
 #include "esp_lcd_touch_ft5x06.h"
 #include "lvgl.h"
 
-// Include the demo headers if enabled via menuconfig
-#if defined(CONFIG_LV_USE_DEMO_WIDGETS) || defined(CONFIG_LV_USE_DEMO_MUSIC)
-#include "demos/lv_demos.h"
-#endif
+#include "ui/ui.h"
 
 static const char* TAG = "main";
 
@@ -174,7 +172,17 @@ static void disp_flush_cb(lv_disp_drv_t* drv, const lv_area_t* area, lv_color_t*
     int offsety1 = area->y1;
     int offsety2 = area->y2;
     // Push the pixel data to the display (via DMA)
-    esp_lcd_panel_draw_bitmap(panel_handle, offsetx1, offsety1, offsetx2 + 1, offsety2 + 1, color_map);
+    esp_err_t ret = esp_lcd_panel_draw_bitmap(panel_handle, offsetx1, offsety1, offsetx2 + 1, offsety2 + 1, color_map);
+    if (ret != ESP_OK)
+    {
+        // Without this check, a draw_bitmap failure hangs the board forever waiting on a
+        // flush_ready that will never come, with zero indication of why. Log the real reason,
+        // plus how much contiguous internal DMA-capable RAM is available, in case it recurs.
+        ESP_LOGE(TAG, "esp_lcd_panel_draw_bitmap failed: %s", esp_err_to_name(ret));
+        ESP_LOGE(TAG, "MALLOC_CAP_DMA free: %u bytes, largest block: %u bytes",
+                 (unsigned) heap_caps_get_free_size(MALLOC_CAP_DMA),
+                 (unsigned) heap_caps_get_largest_free_block(MALLOC_CAP_DMA));
+    }
 
     // DO NOT call lv_disp_flush_ready() here!
     // Because DMA runs in the background, reporting "done" immediately would let LVGL overwrite
@@ -244,17 +252,6 @@ static void gui_task(void* arg)
     }
 }
 
-#if !defined(CONFIG_LV_USE_DEMO_WIDGETS) && !defined(CONFIG_LV_USE_DEMO_MUSIC)
-static void btn_event_cb(lv_event_t* e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    if (code == LV_EVENT_CLICKED)
-    {
-        ESP_LOGI(TAG, "LVGL Button clicked!");
-    }
-}
-#endif
-
 void init_lvgl(void)
 {
     ESP_LOGI(TAG, "Initialize LVGL");
@@ -300,25 +297,8 @@ void init_lvgl(void)
     indev_drv.user_data = touch_handle; // Pass in the touch controller handle
     lv_indev_drv_register(&indev_drv);
 
-    ESP_LOGI(TAG, "Create LVGL UI");
-#if defined(CONFIG_LV_USE_DEMO_MUSIC)
-    // Run the music player demo
-    lv_demo_music();
-#elif defined(CONFIG_LV_USE_DEMO_WIDGETS)
-    // Run the combined widgets demo (looks great)
-    lv_demo_widgets();
-
-#else
-    // Default UI if no demo is enabled
-    lv_obj_t* btn = lv_btn_create(lv_scr_act());
-    lv_obj_align(btn, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_size(btn, 150, 60);
-    lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_ALL, NULL);
-
-    lv_obj_t* label = lv_label_create(btn);
-    lv_label_set_text(label, "Click Me!");
-    lv_obj_center(label);
-#endif
+    ESP_LOGI(TAG, "Create Smart Home Hub UI");
+    ui_init();
 
     ESP_LOGI(TAG, "Create LVGL task on Core 1");
     // Pin the UI task to Core 1 (Core 0 is reserved for WiFi and system tasks)

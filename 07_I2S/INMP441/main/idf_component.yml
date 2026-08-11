@@ -1,0 +1,13 @@
+## IDF Component Manager manifest for the main component.
+## esp_littlefs is a third-party component hosted on the IDF Component Registry.
+## Run `idf.py update-dependencies` once to resolve and download it.
+
+dependencies:
+  idf: ">=5.1"
+
+  ## LittleFS VFS driver (provides esp_littlefs.h / esp_vfs_littlefs.h)
+  joltwallet/littlefs:
+    version: ">=1.14.8"
+  espressif/led_strip:
+    version: "^2.4.1"
+
